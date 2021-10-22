@@ -68,7 +68,7 @@ const uploadPhotographService = async ({ id, filename, caminho }) => {
             await removePhotographOfFiles(userPhotographFilePath)
         }
 
-        user.photograph = `${process.env.URL}/files/${filename}`
+        user.photograph = `${process.env.URL ? process.env.URL : "http://localhost:4000"}/files/${filename}`
     }
 
     await user.save()

@@ -7,7 +7,7 @@ const { ExceptionHandler } = require('./middlewares/exceptionHandler');
 const { ExceptionParams } = require('./middlewares/exceptionParams');
 const uploadConfig = require('./config/upload');
 
-const port = process.env.PORT || 3333;
+const port = process.env.PORT || 4000;
 const app = express()
 const routes = require('./routes/index');
 
