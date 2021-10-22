@@ -48,6 +48,12 @@ const uploadPhotographService = async ({ id, filename, caminho }) => {
         const uploadResponse = await cloudinary.uploader.upload(caminho, { folder: "photographs" });
         if (user.dataValues.photograph_public_id) await cloudinary.uploader.destroy(user.dataValues.photograph_public_id);
 
+        if (user.photograph) {
+            const linkArray = `${user.photograph}`.split('/files/')
+            const userPhotographFilePath = path.join(upload.directory, linkArray.length > 1 ? linkArray[1] : "")
+            await removePhotographOfFiles(userPhotographFilePath)
+        }
+        
         const userPhotographFilePath = path.join(upload.directory, filename)
         await removePhotographOfFiles(userPhotographFilePath)
 
@@ -58,8 +64,8 @@ const uploadPhotographService = async ({ id, filename, caminho }) => {
         // Se ocorrer um erro no upload da foto para o cloudinary nada acontece, o fluxo do programa continua e ele salvará a foto localmente
 
         if (user.photograph) {
-            const oldFilename = `${user.photograph}`.split('/files/')[1]
-            const userPhotographFilePath = path.join(upload.directory, oldFilename)
+            const linkArray = `${user.photograph}`.split('/files/')
+            const userPhotographFilePath = path.join(upload.directory, linkArray.length > 1 ? linkArray[1] : "")
             await removePhotographOfFiles(userPhotographFilePath)
         }
 
