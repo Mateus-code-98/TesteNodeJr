@@ -57,7 +57,11 @@ const uploadPhotographService = async ({ id, filename, caminho }) => {
     } catch (err) {
         // Se ocorrer um erro no upload da foto para o cloudinary nada acontece, o fluxo do programa continua e ele salvará a foto localmente
 
-        await removePhotographOfFiles(user.photograph)
+        if (user.photograph) {
+            const oldFilename = `${user.photograph}`.split('/files/')[1]
+            const userPhotographFilePath = path.join(upload.directory, oldFilename)
+            await removePhotographOfFiles(userPhotographFilePath)
+        }
 
         user.photograph = `${process.env.URL}/files/${filename}`
     }
